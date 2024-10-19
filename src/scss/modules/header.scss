@@ -1,3 +1,6 @@
+@use '../variables.scss' as *;
+@use '../mixins.scss' as *;
+
 .layout-header {
     height: 80px;
     background-color: $grayColor;

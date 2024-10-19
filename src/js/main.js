@@ -11,17 +11,7 @@ const menu = {
 	childItemButton: document.querySelector('.layout-header__nav__submenu__item.with-dropdown .layout-header__nav__submenu__link'),
 };
 
-const changeTouch = () => {
-    isTouch() ? menu.body.classList.add('isTouch') : menu.body.classList.remove('isTouch');
-}
-
-changeTouch();
-
-window.addEventListener('resize', () => {
-    changeTouch();
-});
-
-if (isTouch()) {
+const closedMenu = () => {
     menu.body.addEventListener('click', () => {
         menu.subItemButton.parentNode.classList.remove('open');
 	    menu.childItemButton.parentNode.classList.remove('open');
@@ -31,6 +21,21 @@ if (isTouch()) {
     menu.nav.addEventListener('click', (event) => {
         event.stopPropagation();
     });
+};
+
+const changeTouch = () => {
+    isTouch() ? menu.body.classList.add('isTouch') : menu.body.classList.remove('isTouch');
+}
+
+changeTouch();
+
+window.addEventListener('resize', () => {
+    changeTouch();
+    closedMenu();
+});
+
+if (isTouch()) {
+    closedMenu();
 }
 
 menu.burger.addEventListener('click', (event) => {
