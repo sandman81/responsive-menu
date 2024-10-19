@@ -1,0 +1,346 @@
+.layout-header {
+    height: 80px;
+    background-color: $grayColor;
+    position: relative;
+    z-index: 10;
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        box-shadow: 0px 4px 4px 0px rgba($grayColor, 0.4);
+    }
+    &__logo {
+        flex: 0 0 auto;
+    }
+    &__content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12%;
+        color: $lightColor;
+        transition: gap 200ms;
+        a {
+            color: $lightColor;
+        }
+        @include adaptive(laptop) {
+            gap: 10px;
+        }
+    }
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1 1 auto;
+        @include adaptive(tablet) {
+            justify-content: center;
+        }
+        @include adaptive(mobile) {
+            justify-content: end;
+            padding-right: 20px;
+        }
+    }
+    &__menu {
+        @include adaptive(tablet) {
+            position: fixed;
+            right: 0;
+            top: 80px;
+            height: calc(100vh - 80px);
+            background-color: $grayColor;
+            width: 374px;
+            overflow-y: auto;
+            transition: right 200ms;
+            &:not(.active) {
+                right: -374px;
+            }
+        }
+        @include adaptive(mobile) {
+            width: 100%;
+        }
+    }
+    &__nav {
+        display: flex;
+        gap: 40px;
+        transition: gap 200ms;
+        @include adaptive(laptop) {
+            gap: 10px;
+        }
+        @include adaptive(tablet) {
+            flex-direction: column;
+            gap: 1px;
+        }
+        &__item {
+            position: relative;
+            @include adaptive(noTouchView) {
+                body:not(.isTouch) &.with-dropdown:not(:hover) {
+                    .layout-header__nav__submenu {
+                        opacity: 0;
+                        visibility: hidden;
+                    }
+                }
+            }
+            body.isTouch &.with-dropdown:not(.open) {
+                .layout-header__nav__submenu {
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+        }
+        &__link {
+            display: flex;
+            align-items: center;
+            height: 40px;
+            padding: 0 18px;
+            transition: all 200ms;
+            cursor: pointer;
+            @include adaptive(laptop) {
+                padding: 0 10px;
+                font-size: 15px;
+            }
+            @include adaptive(tablet) {
+                height: 64px;
+                background-color: $grayColorLight;
+                padding: 0 20px;
+                font-size: 18px;
+                &:after {
+                    transform: rotate(180deg);
+                }
+                .layout-header__nav__item.open & {
+                    background-color: $grayColor;
+                    &:after {
+                        transform: rotate(0);
+                    }
+                }
+            }
+            @include adaptive(noTouchView) {
+                body:not(.isTouch) .layout-header__nav__item:hover & {
+                    color: $orangeColor;
+                }
+            }
+            body.isTouch .layout-header__nav__item.open & {
+                color: $orangeColor;
+                @include adaptive(tablet) {
+                    color: white;
+                }
+            }
+            .layout-header__nav__item.with-dropdown & {
+                padding-right: 0;
+                gap: 10px;
+                &:after {
+                    content: '';
+                    transition: transform 200ms;
+                    width: 9px;
+                    height: 6px;
+                    background-image: url(./src/img/drop.svg);
+                }
+            }
+            @include adaptive(noTouchView) {
+                body:not(.isTouch) .layout-header__nav__item.with-dropdown:not(:hover) & {
+                    &:after {
+                        transform: rotate(-180deg);
+                    }
+                }
+                body.isTouch .layout-header__nav__item.with-dropdown & {
+                    &:after {
+                        transform: rotate(-180deg);
+                    }
+                }
+            }
+        }
+        &__submenu {
+            transition: all 200ms;
+            @include adaptive(noTouchView) {
+                position: absolute;
+                top: 35px;
+                left: 0;
+                width: 320px;
+                padding-top: 25px;
+                &::after {
+                    content: '';
+                    width: 28px;
+                    height: 14px;
+                    position: absolute;
+                    top: 11px;
+                    left: 47px;
+                    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                    background-color: $grayColorLight;
+                }
+            }
+            @include adaptive(tablet) {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                max-height: 1000px;
+                transition: max-height 200ms;
+                overflow: hidden;
+                .layout-header__nav__item.with-dropdown:not(.open) & {
+                    max-height: 0;
+                }
+            }
+            &__item {
+                position: relative;
+                @include adaptive(noTouchView) {
+                    body:not(.isTouch) &.with-dropdown:not(:hover) {
+                        .layout-header__nav__childmenu {
+                            opacity: 0;
+                            visibility: hidden;
+                        }
+                    }
+                    body.isTouch &.with-dropdown:not(.open) {
+                        .layout-header__nav__childmenu {
+                            opacity: 0;
+                            visibility: hidden;
+                        }
+                    }
+                }
+            }
+            &__link {
+                display: flex;
+                align-items: center;
+                height: 40px;
+                padding: 0 18px;
+                font-size: 16px;
+                background-color: $grayColorLight;
+                cursor: pointer;
+                @include adaptive(noTouchView) {
+                    body:not(.isTouch) .layout-header__nav__submenu__item:hover & {
+                        background-color: $grayColor;
+                    }
+                    .layout-header__nav__submenu__item:not(:last-child) & {
+                        border-bottom: 1px solid rgba(white, .1);
+                    }
+                    .layout-header__nav__submenu__item:last-child & {
+                        border-radius: 0 0 8px 8px;
+                    }
+                }
+                @include adaptive(tablet) {
+                    height: 64px;
+                    .layout-header__nav__submenu__item.open & {
+                        background-color: $grayColor;
+                    }
+                    .layout-header__nav__submenu__item:not(.open) &:after {
+                        transform: rotate(-180deg);
+                    }
+                }
+                body.isTouch .layout-header__nav__submenu__item.open & {
+                    background-color: $grayColor;
+                }
+                .layout-header__nav__submenu__item.with-dropdown & {
+                    gap: 13px;
+                    &:after {
+                        content: '';
+                        width: 9px;
+                        height: 6px;
+                        background-image: url(./src/img/drop.svg);
+                        transition: transform 200ms;
+                        @include adaptive(noTouchView) {
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+                &-text {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+        &__childmenu {
+            transition: all 200ms;
+            @include adaptive(noTouchView) {
+                position: absolute;
+                bottom: 0;
+                left: 315px;
+                padding-left: 25px;
+                &::after {
+                    content: '';
+                    width: 14px;
+                    height: 28px;
+                    position: absolute;
+                    bottom: 6px;
+                    left: 12px;
+                    clip-path: polygon(0% 50%, 100% 100%, 100% 0%);
+                    background-color: $grayColorLight;
+                }
+            }
+            @include adaptive(tablet) {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                overflow: hidden;
+                max-height: 1000px;
+                transition: max-height 200ms;
+                .layout-header__nav__submenu__item.with-dropdown:not(.open) & {
+                    max-height: 0;
+                }
+            }
+            &__link {
+                display: flex;
+                align-items: center;
+                height: 40px;
+                padding: 0 18px;
+                font-size: 16px;
+                background-color: $grayColorLight;
+                white-space: nowrap;
+                @include adaptive(noTouchView) {
+                    body:not(.isTouch) &:hover {
+                        background-color: $grayColor;
+                    }
+                    .layout-header__nav__childmenu__item:not(:last-child) & {
+                        border-bottom: 1px solid rgba(white, .1);
+                    }
+                    .layout-header__nav__childmenu__item:first-child & {
+                        border-radius: 8px 8px 0 0;
+                    }
+                    .layout-header__nav__childmenu__item:last-child & {
+                        border-radius: 0 0 8px 8px;
+                    }
+                }
+                @include adaptive(tablet) {
+                    height: 64px;
+                }
+            }
+        }
+
+    }
+    &__phone {
+        display: flex;
+        gap: 10px;
+        font-weight: 500;
+        line-height: 24px;
+        @include adaptive(laptop) {
+            font-size: 16px;
+        }
+        @include adaptive(tablet) {
+            font-size: 18px;
+        }
+        @include adaptive(mobile) {
+            span {
+                display: none;
+            }
+        }
+        &::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            background-image: url(./src/img/phone.svg);
+        }
+    }
+    &__burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 22px;
+        height: 12px;
+        @include adaptive(noTouchView) {
+            display: none;
+        }
+        &::before, &:after, span {
+            content: '';
+            height: 2px;
+            background-color: $yellowColor;
+        }
+    }
+}

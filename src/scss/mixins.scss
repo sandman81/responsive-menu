@@ -1,0 +1,25 @@
+@mixin adaptive($breakpoint) {
+    @if $breakpoint==mobile {
+        @media only screen and (width <=375px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==tablet {
+        @media only screen and (width <=768px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==laptop {
+        @media only screen and (width <=1140px) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==noTouchView {
+        @media only screen and (width >=769px) {
+            @content;
+        }
+    }
+}
